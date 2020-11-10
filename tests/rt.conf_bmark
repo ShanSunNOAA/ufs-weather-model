@@ -1,0 +1,7 @@
+#######################################################################################################################################################################################
+# CPLD tests
+#######################################################################################################################################################################################
+
+COMPILE | CCPP=Y DEBUG=Y SUITES=FV3_GFS_2017_coupled,FV3_GFS_2017_satmedmf_coupled,FV3_GFS_v15p2_coupled S2S=Y                        | standard | hera.intel orion.intel wcoss_dell_p3 | fv3 |
+#RUN    | cpld_bmark                                                                                                          | standard | hera.intel orion.intel wcoss_dell_p3 | fv3 |
+RUN     | cpld_bmark_frac                                                                                                     | standard | hera.intel orion.intel wcoss_dell_p3 | fv3 |
