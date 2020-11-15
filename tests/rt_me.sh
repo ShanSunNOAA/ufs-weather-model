@@ -224,13 +224,15 @@ elif [[ $MACHINE_ID = hera.* ]]; then
 
   QUEUE=batch
   COMPILE_QUEUE=batch
-
-#  ACCNR=fv3-cpu
+  ACCNR=gsd-fv3
   PARTITION=
   dprefix=/scratch1/NCEPDEV
   DISKNM=$dprefix/nems/emc.nemspara/RT
-  STMP=$dprefix/stmp4
-  PTMP=$dprefix/stmp2
+#ssun  STMP=$dprefix/stmp4
+#ssun  PTMP=$dprefix/stmp2
+  STMP=/scratch2/BMC/gsd-fv3-dev
+  PTMP=/scratch2/BMC/gsd-fv3-dev
+
 
   SCHEDULER=slurm
   cp fv3_conf/fv3_slurm.IN_hera fv3_conf/fv3_slurm.IN
@@ -422,9 +424,9 @@ if [[ $TESTS_FILE =~ '35d' ]]; then
 fi
 
 if [[ $MACHINE_ID = hera.* ]] || [[ $MACHINE_ID = orion.* ]] || [[ $MACHINE_ID = cheyenne.* ]] || [[ $MACHINE_ID = jet.* ]]; then
-  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20201110/${RT_COMPILER^^}}
+  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20201106/${RT_COMPILER^^}}
 else
-  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20201110}
+  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20201106}
 fi
   RTPWD=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/develop-20201021_frac
 
@@ -633,7 +635,7 @@ EOF
       elif [[ $ECFLOW == true ]]; then
         ecflow_create_compile_task
       else
-        ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
+        ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR NO NO > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
       fi
 
       # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX

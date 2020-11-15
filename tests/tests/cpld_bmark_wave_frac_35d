@@ -1,7 +1,7 @@
 #
-#  cpld_bmark_wave 35D
+#  cpld_bmark_wave_frac 35D
 #
-export TEST_DESCR="Fully coupled FV3-CCPP-MOM6-CICE-CMEPS-WW3 system - C384 MX025 - Benchmark 35d test with waves"
+export TEST_DESCR="Fully coupled FV3-CCPP-MOM6-CICE-CMEPS-WW3-FRAC system - C384 MX025 - Benchmark 35d test with waves"
 
 export_35d_run
 export_fv3
@@ -70,6 +70,8 @@ export coupling_interval_slow_sec=${CPL_SLOW}
 export coupling_interval_fast_sec=${CPL_FAST}
 
 export FRAC_GRID_INPUT='.T.'
+export FRAC_GRID='.T.'
+export CPLMODE="nems_frac"
 
 export CPLWAV='.T.'
 export CPLWAV2ATM='.T.'
