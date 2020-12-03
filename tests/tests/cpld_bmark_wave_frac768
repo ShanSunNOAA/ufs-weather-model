@@ -1,0 +1,98 @@
+#
+#  cpld_bmark_wave_frac768
+#
+export TEST_DESCR="Fully coupled FV3-CCPP-MOM6-CICE-CMEPS-WW3 system - C768 MX025 - Benchmark test with waves"
+
+export_35d_run
+export_fv3
+export_cpl
+
+export SYEAR="2018"
+export SMONTH="08"
+export SDAY="01"
+export SHOUR="00"
+
+export DAYS="4"
+export FHMAX="96"
+export RESTART_N=${FHMAX}
+export WLCLK=480
+
+export TASKS=866
+export TPN=40
+export INPES=6
+export JNPES=12
+export THRD=1
+export WRTTASK_PER_GROUP=24
+
+export med_petlist_bounds="0 431"
+export atm_petlist_bounds="0 455"
+export ocn_petlist_bounds="456 695"
+export ice_petlist_bounds="696 743"
+export wav_petlist_bounds="744 865"
+
+# atm/ocn/ice resolution
+export ATMRES='C768'
+export IMO=3072
+export JMO=1536
+export INPES=16
+export JNPES=12
+export NPX=769
+export NPY=769
+export NPZ=64
+export NPZP=65
+
+export OCNRES='025'
+export ICERES='0.25'
+export NX_GLB=1440
+export NY_GLB=1080
+export NPROC_ICE='48'
+
+# set component and coupling timesteps
+export DT_ATMOS=225
+export DT_CICE=${DT_ATMOS}
+export DT_DYNAM_MOM6='900'
+export DT_THERM_MOM6='1800'
+export CPL_SLOW=${DT_THERM_MOM6}
+export CPL_FAST=${DT_ATMOS}
+
+# nems.configure
+export NEMS_CONFIGURE="nems.configure.cpld_wave.IN"
+export coupling_interval_slow_sec=${CPL_SLOW}
+export coupling_interval_fast_sec=${CPL_FAST}
+
+export FRAC_GRID_INPUT='.T.'
+
+export CPLWAV='.T.'
+export CPLWAV2ATM='.T.'
+
+# resolution dependent files
+export MOM_INPUT="MOM_input_template_${OCNRES}"
+export MESHICE="mesh.mx${OCNRES}.nc"
+export CICEGRID="grid_cice_NEMS_mx${OCNRES}.nc"
+export CICEMASK="kmtu_cice_NEMS_mx${OCNRES}.nc"
+export CHLCLIM="seawifs-clim-1997-2010.${NX_GLB}x${NY_GLB}.v20180328.nc"
+export FRUNOFF="runoff.daitren.clim.${NX_GLB}x${NY_GLB}.v20180328.nc"
+
+export FNALBC="'global_snowfree_albedo.bosu.t1534.3072.1536.rg.grb',"
+export FNVETC="'global_vegtype.igbp.t1534.3072.1536.rg.grb',"
+export FNSOTC="'global_soiltype.statsgo.t1534.3072.1536.rg.grb',"
+export FNSMCC="'global_soilmgldas.t1534.3072.1536.grb',"
+export FNABSC="'global_mxsnoalb.uariz.t1534.3072.1536.rg.grb',"
+
+
+export OZ_PHYS_NEW=".T."
+
+export MOM6_USE_WAVES='True'
+export MOM6_RIVER_RUNOFF='True'
+export MOM6_RESTART_SETTING="r"
+export MOM6_REPRO_LA='True'
+
+export RUNID="cpcice"
+
+export INPUT_NML=input.benchmark_ccpp.nml.IN
+
+export FIELD_TABLE="field_table.gfdlmp"
+export SUITE_NAME="FV3_GFS_v15p2_coupled"
+
+export RT35D='.T.'
+export FV3_RUN=cpld_bmark_run.IN
