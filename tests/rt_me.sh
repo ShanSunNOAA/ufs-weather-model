@@ -236,15 +236,17 @@ elif [[ $MACHINE_ID = hera.* ]]; then
   ECFLOW_START=/scratch1/NCEPDEV/nems/emc.nemspara/soft/miniconda3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
-  QUEUE=batch
-  COMPILE_QUEUE=batch
-
-#  ACCNR=fv3-cpu
+  QUEUE=urgent
+  COMPILE_QUEUE=urgent
+  ACCNR=gsd-fv3
   PARTITION=
   dprefix=/scratch1/NCEPDEV
   DISKNM=$dprefix/nems/emc.nemspara/RT
-  STMP=$dprefix/stmp4
-  PTMP=$dprefix/stmp2
+#ssun  STMP=$dprefix/stmp4
+#ssun  PTMP=$dprefix/stmp2
+  STMP=/scratch2/BMC/gsd-fv3-dev
+  PTMP=/scratch2/BMC/gsd-fv3-dev
+
 
   SCHEDULER=slurm
   cp fv3_conf/fv3_slurm.IN_hera fv3_conf/fv3_slurm.IN
@@ -428,7 +430,7 @@ else
   RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20201220}
 fi
 
-## INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20201220/}
+##INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20201220/}
 INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/input-data-20201218_frac/
 
 shift $((OPTIND-1))
@@ -611,7 +613,7 @@ EOF
       elif [[ $ECFLOW == true ]]; then
         ecflow_create_compile_task
       else
-        ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
+        ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR NO NO > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
       fi
 
       # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
