@@ -236,8 +236,8 @@ elif [[ $MACHINE_ID = hera.* ]]; then
   ECFLOW_START=/scratch1/NCEPDEV/nems/emc.nemspara/soft/miniconda3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
-  QUEUE=urgent
-  COMPILE_QUEUE=urgent
+  QUEUE=batch
+  COMPILE_QUEUE=batch
   ACCNR=gsd-fv3
   PARTITION=
   dprefix=/scratch1/NCEPDEV
@@ -432,6 +432,7 @@ fi
 
 ##INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20201220/}
 INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/input-data-20201218_frac/
+INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT}/WW3_input_data_20201220/
 
 shift $((OPTIND-1))
 [[ $# -gt 1 ]] && usage
@@ -510,6 +511,7 @@ if [[ $ROCOTO == true ]]; then
   <!ENTITY PATHTR         "${PATHTR}">
   <!ENTITY RTPWD          "${RTPWD}">
   <!ENTITY INPUTDATA_ROOT "${INPUTDATA_ROOT}">
+  <!ENTITY INPUTDATA_ROOT_WW3 "${INPUTDATA_ROOT_WW3}">
   <!ENTITY RUNDIR_ROOT    "${RUNDIR_ROOT}">
   <!ENTITY NEW_BASELINE   "${NEW_BASELINE}">
 ]>
@@ -617,11 +619,11 @@ EOF
       fi
 
       # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
-      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      # (regression test baseline directories) for REPRO or PROD runs
       if [[ ${MAKE_OPT^^} =~ "REPRO=Y" ]]; then
         RT_SUFFIX="_repro"
         BL_SUFFIX="_repro"
-      elif [[ ${MAKE_OPT^^} =~ "CCPP=Y" ]]; then
+      else
         RT_SUFFIX="_prod"
         BL_SUFFIX="_ccpp"
       fi
@@ -683,6 +685,7 @@ EOF
       export RT_COMPILER=${RT_COMPILER}
       export RTPWD=${RTPWD}
       export INPUTDATA_ROOT=${INPUTDATA_ROOT}
+      export INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT_WW3}
       export PATHRT=${PATHRT}
       export PATHTR=${PATHTR}
       export NEW_BASELINE=${NEW_BASELINE}
