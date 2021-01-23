@@ -94,7 +94,7 @@
   hord_mt = 5
   hord_vt = 5
   hord_tm = 5
-  hord_dp = 5
+  hord_dp = -5
   hord_tr = 8
   adjust_dry_mass = .false.
   consv_te = 1.
@@ -160,7 +160,7 @@
   cnvcld       = .true.
   imfshalcnv   = 2
   imfdeepcnv   = 2
-  cdmbgwd      = 0.23,1.5,1.0,1.0
+  cdmbgwd      = 1.1,0.72,1.0,1.0
   prslrd0      = 0.
   ivegsrc      = 1
   isot         = 1
