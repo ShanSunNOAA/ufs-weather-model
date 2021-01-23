@@ -234,8 +234,8 @@ elif [[ $MACHINE_ID = hera.* ]]; then
   ECFLOW_START=/scratch1/NCEPDEV/nems/emc.nemspara/soft/miniconda3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
-  QUEUE=urgent
-  COMPILE_QUEUE=urgent
+  QUEUE=batch
+  COMPILE_QUEUE=batch
   ACCNR=gsd-hpcs
   #ACCNR=fv3-cpu
   PARTITION=
@@ -419,8 +419,8 @@ else
   RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20210120}
 fi
 
-INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20210115}
-#INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/input-data-20210107/
+#INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20210115}
+INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/input-data-20210115_frac/
 INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT}/WW3_input_data_20201220
 
 shift $((OPTIND-1))
