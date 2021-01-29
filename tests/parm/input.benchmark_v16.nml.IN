@@ -55,7 +55,7 @@
   n_sponge = 42
   nudge_qv = .true.
   nudge_dz = .false.
-  tau = 10.
+  tau = 5.
   rf_cutoff = 7.5e2
   d2_bg_k1 = 0.20
   d2_bg_k2 = 0.04
@@ -70,7 +70,7 @@
   a_imp = 1.
   p_fac = 0.1
   k_split = 2
-  n_split = 6
+  n_split = 8
   nwat = 6
   na_init = @[NA_INIT]
   d_ext = 0.
@@ -181,7 +181,7 @@
   debug        = .false.
   nstf_name    = 0,0,0,0,0
   frac_grid    = @[FRAC_GRID]
-  nst_anl      = .false.
+  nst_anl      = .true.
   psautco      = 0.0008,0.0005
   prautco      = 0.00015,0.00015
   lgfdlmprad   = .true.
