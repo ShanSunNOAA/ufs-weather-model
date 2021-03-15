@@ -34,15 +34,8 @@ rt_single() {
     [[ ${#line} == 0 ]] && continue
     [[ $line == \#* ]] && continue
 
-    if [[ $line == COMPILE* ]] ; then
-      MACHINES=$(echo $line | cut -d'|' -f3 | sed -e 's/^ *//' -e 's/ *$//')
-      if [[ ${MACHINES} == '' ]]; then
-        compile_line=$line
-      elif [[ ${MACHINES} == -* ]]; then
-        [[ ${MACHINES} =~ ${MACHINE_ID} ]] || compile_line=$line
-      elif [[ ${MACHINES} == +* ]]; then
-        [[ ${MACHINES} =~ ${MACHINE_ID} ]] && compile_line=$line
-      fi
+    if [[ $line =~ COMPILE && $line =~ ${MACHINE_ID} ]]; then
+      compile_line=$line
     fi
 
     if [[ $line =~ RUN ]]; then
@@ -207,9 +200,11 @@ elif [[ $MACHINE_ID = wcoss2 ]]; then
 
 elif [[ $MACHINE_ID = gaea.* ]]; then
 
-  export PATH=/lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/envs/ufs-weather-model/bin:/lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/bin:$PATH
-  export PYTHONPATH=/lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/envs/ufs-weather-model/lib/python3.8/site-packages:/lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/lib/python3.8/site-packages
-  ECFLOW_START=/lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/envs/ufs-weather-model/bin/ecflow_start.sh
+  module load cray-python/3.7.3.2
+
+  export PATH=/lustre/f2/pdata/esrl/gsd/contrib/ecFlow-5.3.1/bin:$PATH
+  export PYTHONPATH=/lustre/f2/pdata/esrl/gsd/contrib/ecFlow-5.3.1/lib/python3.7/site-packages
+  ECFLOW_START=/lustre/f2/pdata/esrl/gsd/contrib/ecFlow-5.3.1/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
   DISKNM=/lustre/f2/pdata/esrl/gsd/ufs/ufs-weather-model/RT
@@ -239,8 +234,8 @@ elif [[ $MACHINE_ID = hera.* ]]; then
   ECFLOW_START=/scratch1/NCEPDEV/nems/emc.nemspara/soft/miniconda3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
-  QUEUE=debug
-  COMPILE_QUEUE=debug
+  QUEUE=urgent
+  COMPILE_QUEUE=urgent
   ACCNR=gsd-hpcs
   #ACCNR=fv3-cpu
   PARTITION=
@@ -290,9 +285,9 @@ elif [[ $MACHINE_ID = jet.* ]]; then
   ROCOTOCOMPLETE=$(which rocotocomplete)
   ROCOTO_SCHEDULER=slurm
 
-  export PATH=/lfs4/HFIP/hfv3gfs/software/miniconda3/4.8.3/envs/ufs-weather-model/bin:/lfs4/HFIP/hfv3gfs/software/miniconda3/4.8.3/bin:$PATH
-  export PYTHONPATH=/lfs4/HFIP/hfv3gfs/software/miniconda3/4.8.3/envs/ufs-weather-model/lib/python3.8/site-packages:/lfs4/HFIP/hfv3gfs/software/miniconda3/4.8.3/lib/python3.8/site-packages
-  ECFLOW_START=/lfs4/HFIP/hfv3gfs/software/miniconda3/4.8.3/envs/ufs-weather-model/bin/ecflow_start.sh
+  export PATH=/lfs4/HFIP/hfv3gfs/software/ecFlow-5.5.3/bin:$PATH
+  export PYTHONPATH=/lfs4/HFIP/hfv3gfs/software/ecFlow-5.5.3/lib/python3.6/site-packages
+  ECFLOW_START=/lfs4/HFIP/hfv3gfs/software/ecFlow-5.5.3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
   QUEUE=batch
@@ -310,9 +305,10 @@ elif [[ $MACHINE_ID = jet.* ]]; then
 
 elif [[ $MACHINE_ID = cheyenne.* ]]; then
 
-  export PATH=/glade/p/ral/jntp/tools/miniconda3/4.8.3/envs/ufs-weather-model/bin:/glade/p/ral/jntp/tools/miniconda3/4.8.3/bin:$PATH
-  export PYTHONPATH=/glade/p/ral/jntp/tools/miniconda3/4.8.3/envs/ufs-weather-model/lib/python3.8/site-packages:/glade/p/ral/jntp/tools/miniconda3/4.8.3/lib/python3.8/site-packages
-  ECFLOW_START=/glade/p/ral/jntp/tools/miniconda3/4.8.3/envs/ufs-weather-model/bin/ecflow_start.sh
+  module load python/3.7.9
+  export PATH=/glade/p/ral/jntp/tools/ecFlow-5.5.3/bin:$PATH
+  export PYTHONPATH=/glade/p/ral/jntp/tools/ecFlow-5.5.3/lib/python3.7/site-packages
+  ECFLOW_START=/glade/p/ral/jntp/tools/ecFlow-5.5.3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
   QUEUE=regular
@@ -418,13 +414,13 @@ if [[ $TESTS_FILE =~ '35d' ]]; then
 fi
 
 if [[ $MACHINE_ID = hera.* ]] || [[ $MACHINE_ID = orion.* ]] || [[ $MACHINE_ID = cheyenne.* ]] || [[ $MACHINE_ID = gaea.* ]] || [[ $MACHINE_ID = jet.* ]]; then
-  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20210212/${RT_COMPILER^^}}
+  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20210128/${RT_COMPILER^^}}
 else
-  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20210212}
+  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-20210128}
 fi
 
 #INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20210115}
-INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/input-data-20201218_frac/
+INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/input-data-20210228_atm/
 INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT}/WW3_input_data_20201220
 
 shift $((OPTIND-1))
@@ -625,7 +621,7 @@ EOF
     elif [[ $ECFLOW == true ]]; then
       ecflow_create_compile_task
     else
-      ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR NO NO > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
+      ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR YES NO > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
     fi
 
     # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
@@ -779,7 +775,6 @@ else
   [[ ${KEEP_RUNDIR} == false ]] && rm -rf ${RUNDIR_ROOT}
   [[ ${ROCOTO} == true ]] && rm -f ${ROCOTO_XML} ${ROCOTO_DB} *_lock.db
   [[ ${TEST_35D} == true ]] && rm -f tests/cpld_bmark*_20*
-  [[ ${SINGLE_NAME} != '' ]] && rm -f rt.conf.single
 fi
 
 date >> ${REGRESSIONTEST_LOG}
