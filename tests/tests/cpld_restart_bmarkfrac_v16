@@ -121,6 +121,7 @@ export NPZ=127
 export NPZP=128
 export PSM_BC=1
 export DDDMP=0.2
+export NST_ANL='.T.'
 
 # resolution dependent files
 export MOM_INPUT="MOM_input_template_${OCNRES}"
