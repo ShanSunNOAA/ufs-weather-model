@@ -12,32 +12,33 @@
   blocksize = 32
   chksum_debug = .false.
   dycore_only = .false.
-  fdiag = 6
-  fhmax = 840
-  fhout = 6
+  fdiag = 1
+  fhmax = 480
+  fhout = 1
   fhmaxhf = 0
   fhouthf = -1
-  ccpp_suite = '@[SUITE_NAME]'
-  
+  ccpp_suite = '@[CCPP_SUITE]'
 /
 
 &diag_manager_nml
   prepend_date = .false.
-  
 /
 
 &fms_io_nml
   checksum_required = .false.
   max_files_r = 100
   max_files_w = 100
-  
+/
+
+&mpp_io_nml
+shuffle=1
+deflate_level=1
 /
 
 &fms_nml
   clock_grain = 'ROUTINE'
   domains_stack_size = 3000000
   print_memory_usage = .false.
-  
 /
 
 &fv_core_nml
@@ -47,8 +48,6 @@
   npy      = @[NPY]
   ntiles   = 6,
   npz    = @[NPZ]
-  dz_min = @[DZ_MIN]
-  psm_bc = 1
   grid_type = -1
   make_nh = @[MAKE_NH]
   fv_debug = .false.
@@ -80,7 +79,7 @@
   fv_sg_adj = 450
   d2_bg = 0.
   nord = 2
-  dddmp = 0.2
+  dddmp = 0.1
   d4_bg = 0.12
   vtdm4 = 0.02
   delt_max = 0.002
@@ -111,7 +110,6 @@
   agrid_vel_rst = .true.
   read_increment = .false.
   res_latlon_dynamics = ""
-  
 /
 
 &external_ic_nml
@@ -120,13 +118,10 @@
   gfs_dwinds = .true.
   checker_tr = .false.
   nt_checker = 0
-  
 /
 
 &gfs_physics_nml
   fhzero       = 6
-  oz_phys      = .false.
-  oz_phys_2015 = .true.
   h2o_phys     = .true.
   ldiag3d      = .false.
   fhcyc        = 24
@@ -162,7 +157,7 @@
   cnvcld       = .true.
   imfshalcnv   = 2
   imfdeepcnv   = 2
-  cdmbgwd      = @[CDMBWD]
+  cdmbgwd      = 1.1,0.72,1.0,1.0
   prslrd0      = 0.
   ivegsrc      = 1
   isot         = 1
@@ -181,7 +176,9 @@
   iopt_tbot    = 2
   iopt_stc     = 1
   debug        = .false.
-  nstf_name    = 0,0,0,0,0
+  oz_phys      = .F.
+  oz_phys_2015 = .T.
+  nstf_name    = @[NSTF_NAME]
   frac_grid    = @[FRAC_GRID]
   nst_anl      = .true.
   psautco      = 0.0008,0.0005
@@ -191,11 +188,11 @@
   ldiag_ugwp   = .false.
   do_ugwp      = .false.
   do_tofd      = .true.
-  cplflx       = .T.
-  cplwav         = @[CPLWAV]
-  cplwav2atm     = @[CPLWAV2ATM]
-  min_seaice     = @[MIN_SEAICE]
-  
+  do_sppt      = @[DO_SPPT]
+  do_shum      = @[DO_SHUM]
+  do_skeb      = @[DO_SKEB]
+  lndp_type    = @[LNDP_TYPE]
+  n_var_lndp   = @[N_VAR_LNDP]
 /
 
 &gfdl_cloud_microphysics_nml
@@ -246,66 +243,87 @@
   icloud_f = 1
   mp_time = 150.
   reiflag = 2
-  
 /
 
 &interpolator_nml
   interp_method = 'conserve_great_circle'
-  
 /
 
 &namsfc
-       FNGLAC   = "global_glacier.2x2.grb",
-       FNMXIC   = "global_maxice.2x2.grb",
-       FNTSFC   = "RTGSST.1982.2012.monthly.clim.grb",
-       FNSNOC   = "global_snoclim.1.875.grb",
-       FNZORC   = "igbp",
-       FNALBC   = @[FNALBC]
-       FNALBC2  = "global_albedo4.1x1.grb",
-       FNAISC   = "CFSR.SEAICE.1982.2012.monthly.clim.grb",
-       FNTG3C   = "global_tg3clim.2.6x1.5.grb",
-       FNVEGC   = "global_vegfrac.0.144.decpercent.grb",
-       FNVETC   = @[FNVETC]
-       FNSOTC   = @[FNSOTC]
-       FNSMCC   = @[FNSMCC]
-       FNMSKH   = "global_slmask.t1534.3072.1536.grb",
-       FNTSFA   = "",
-       FNACNA   = "",
-       FNSNOA   = "",
-       FNVMNC   = "global_shdmin.0.144x0.144.grb",
-       FNVMXC   = "global_shdmax.0.144x0.144.grb",
-       FNSLPC   = "global_slope.1x1.grb",
-       FNABSC   = @[FNABSC]
-       LDEBUG   =.false.,
+  FNGLAC   = 'global_glacier.2x2.grb'
+  FNMXIC   = 'global_maxice.2x2.grb'
+  FNTSFC   = 'RTGSST.1982.2012.monthly.clim.grb'
+  FNSNOC   = 'global_snoclim.1.875.grb'
+  FNZORC   = 'igbp'
+  FNALBC   = @[FNALBC]
+  FNALBC2  = 'global_albedo4.1x1.grb'
+  FNAISC   = 'CFSR.SEAICE.1982.2012.monthly.clim.grb'
+  FNTG3C   = 'global_tg3clim.2.6x1.5.grb'
+  FNVEGC   = 'global_vegfrac.0.144.decpercent.grb'
+  FNVETC   = @[FNVETC]
+  FNSOTC   = @[FNSOTC]
+  FNSMCC   = @[FNSMCC]
+  FNMSKH   = 'global_slmask.t1534.3072.1536.grb'
+  FNTSFA   = ''
+  FNACNA   = ''
+  FNSNOA   = ''
+  FNVMNC   = 'global_shdmin.0.144x0.144.grb'
+  FNVMXC   = 'global_shdmax.0.144x0.144.grb'
+  FNSLPC   = 'global_slope.1x1.grb'
+  FNABSC   = @[FNABSC]
+  LDEBUG   = .false.
   FSMCL(2) = 99999
   FSMCL(3) = 99999
   FSMCL(4) = 99999
-  LANDICE = .true.
-  FTSFS = 90
-  FAISL = 99999
-  FAISS = 99999
-  FSNOL = 99999
-  FSNOS = 99999
-  FSICL = @[FSICL]
-  FSICS = 99999
-  FTSFL = 99999
-  FVETL = 99999
-  FSOTL = 99999
-  FvmnL = 99999
-  FvmxL = 99999
-  FSLPL = 99999
-  FABSL = 99999
-  
+  LANDICE  = .true.
+  FTSFS    = 90
+  FAISL    = 99999
+  FAISS    = 99999
+  FSNOL    = 99999
+  FSNOS    = 99999
+  FSICL    = 99999
+  FSICS    = 99999
+  FTSFL    = 99999
+  FVETL    = 99999
+  FSOTL    = 99999
+  FvmnL    = 99999
+  FvmxL    = 99999
+  FSLPL    = 99999
+  FABSL    = 99999
 /
 
 &fv_grid_nml
   grid_file = 'INPUT/grid_spec.nc'
-  
 /
 
 &nam_stochy
+  SKEBNORM=1,
+  SKEB_NPASS=30,
+  SKEB_VDOF=5,
+  SKEB=@[SKEB],
+  SKEB_TAU=2.16E4,
+  SKEB_LSCALE=1000.E3,
+  SKEBINT=1800,
+  SHUM=@[SHUM],
+  SHUM_TAU=21600,
+  SHUM_LSCALE=500000,
+  SHUMINT=3600,
+  SPPT=@[SPPT],
+  SPPT_TAU=21600,
+  SPPT_LSCALE=500000,
+  SPPT_LOGIT=.TRUE.,
+  SPPT_SFCLIMIT=.TRUE.,
+  SPPTINT=1800,
+  ISEED_SHUM=1,
+  ISEED_SKEB=2,
+  ISEED_SPPT=3,
 /
+
 &nam_sfcperts
+  lndp_type      = @[LNDP_TYPE]
+  LNDP_TAU=21600,
+  LNDP_LSCALE=500000,
+  ISEED_LNDP=2010,
 /
 
 &cires_ugwp_nml
@@ -322,12 +340,4 @@
   knob_ugwp_version = 0
   launch_level      = 54
 /
-
- &MOM_input_nml
-         output_directory = 'MOM6_OUTPUT/',
-         input_filename = '@[MOM6_RESTART_SETTING]'
-         restart_input_dir = 'INPUT/',
-         restart_output_dir = 'RESTART/',
-         parameter_filename = 'INPUT/MOM_input',
-                              'INPUT/MOM_override' /
 
