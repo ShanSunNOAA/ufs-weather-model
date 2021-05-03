@@ -65,6 +65,16 @@ if [[ $CPLWAV == .T. && $CPLWAV2ATM == .T. ]]; then
   fi
 fi
 
+if [ $CPLCHM = .T. ]; then
+#cp    @[INPUTDATA_ROOT]/GSD_CHEM_input_data/C384/INPUT/* INPUT/.
+#cp    @[INPUTDATA_ROOT]/GSD_CHEM_input_data/C384/*table* .
+# DH* TEMPORARY
+cp  @[INPUTDATA_ROOT]/FV3_input_data_ugwpv1/seaice_newland.grb .
+cp /scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/chem_input_@[ATMRES]/*tile* INPUT/.
+cp /scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/chem_input_@[ATMRES]/*table* .
+# *DH
+fi
+
 # No restart
 if [ $WARM_START = .F. ]; then
   # ICs
