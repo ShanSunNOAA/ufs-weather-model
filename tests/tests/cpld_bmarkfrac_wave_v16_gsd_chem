@@ -66,12 +66,12 @@ export SMONTH="07"
 export SDAY="01"
 export SHOUR="00"
 
-export DAYS="0.25"
-export FHMAX="6"
+export DAYS="1.0"
+export FHMAX="24"
 export RESTART_INTERVAL=${FHMAX}
 export RESTART_N=${RESTART_INTERVAL}
 
-#export WLCLK=60
+export WLCLK=60
 
 export TASKS=$TASKS_cpl_wwav
 export TPN=$TPN_cpl_wwav

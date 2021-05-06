@@ -199,7 +199,6 @@
   aer_bc_opt     = 1
   aer_ic_opt     = 1
   aer_ra_feedback  = 1
-  aer_ra_frq = 1440
   aerchem_onoff = 1
   bio_emiss_opt = 0
   biomass_burn_opt = 1
