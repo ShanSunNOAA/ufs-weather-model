@@ -237,8 +237,8 @@ elif [[ $MACHINE_ID = hera.* ]]; then
   ECFLOW_START=/scratch1/NCEPDEV/nems/emc.nemspara/soft/miniconda3/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
 
-  QUEUE=urgent
-  COMPILE_QUEUE=urgent
+  QUEUE=debug
+  COMPILE_QUEUE=debug
   ACCNR=gsd-hpcs
   #ACCNR=fv3-cpu
   PARTITION=
@@ -423,7 +423,8 @@ else
   RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/develop-${BL_DATE}}
 fi
 
-INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20210324}
+##INPUTDATA_ROOT=${INPUTDATA_ROOT:-$DISKNM/NEMSfv3gfs/input-data-20210324}
+INPUTDATA_ROOT=/scratch2/BMC/gsd-fv3-dev/FV3-MOM6-CICE5/inputdata_lakeint_p6
 INPUTDATA_ROOT_WW3=${INPUTDATA_ROOT}/WW3_input_data_20201220
 INPUTDATA_ROOT_BMIC=${INPUTDATA_ROOT_BMIC:-$DISKNM/NEMSfv3gfs/BM_IC-20210212}
 
@@ -629,7 +630,7 @@ EOF
     elif [[ $ECFLOW == true ]]; then
       ecflow_create_compile_task
     else
-      ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR YES NO > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
+      ./compile.sh $MACHINE_ID "${MAKE_OPT}" $COMPILE_NR NO NO > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
       mv compile_${COMPILE_NR}_time.log ${LOG_DIR}
     fi
 

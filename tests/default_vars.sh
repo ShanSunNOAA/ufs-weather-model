@@ -324,6 +324,7 @@ export POSTAPP=''
 export NUM_FILES=2
 export FILENAME_BASE="'dyn' 'phy'"
 export OUTPUT_GRID="'cubed_sphere_grid'"
+export OUTPUT_GRID="'gaussian_grid'"
 export OUTPUT_FILE="'netcdf'"
 export IDEFLATE=0
 export NBITS=0

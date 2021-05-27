@@ -61,17 +61,17 @@ export LIST_FILES="phyf006.tile1.nc \
 export_fv3
 export_cpl
 
-export SYEAR="2013"
-export SMONTH="04"
+export SYEAR="2016"
+export SMONTH="07"
 export SDAY="01"
 export SHOUR="00"
 
-export DAYS="0.25"
-export FHMAX="6"
+export DAYS="30.0"
+export FHMAX="720"
 export RESTART_INTERVAL=${FHMAX}
 export RESTART_N=${RESTART_INTERVAL}
 
-#export WLCLK=60
+export WLCLK=30
 
 export TASKS=$TASKS_cpl_wwav
 export TPN=$TPN_cpl_wwav
@@ -103,7 +103,7 @@ export NPROC_ICE='48'
 export CDMBWD=${CDMBWD_c384}
 
 # set component and coupling timesteps
-export DT_ATMOS='300'
+export DT_ATMOS='360'
 export DT_CICE=${DT_ATMOS}
 export DT_DYNAM_MOM6='900'
 export DT_THERM_MOM6='1800'

@@ -198,8 +198,8 @@
   fscav_aero   = "sulf:0.2", "bc1:0.2","bc2:0.2","oc1:0.2","oc2:0.2",
   aer_bc_opt     = 1
   aer_ic_opt     = 1
-  aer_ra_feedback  = 1
-  aer_ra_frq = 1440
+  aer_ra_feedback  = 2
+  aer_ra_frq=60
   aerchem_onoff = 1
   bio_emiss_opt = 0
   biomass_burn_opt = 1
@@ -210,8 +210,8 @@
   cldchem_onoff = 0
   dmsemis_opt    = 1
   dust_opt       = 5
-  dust_alpha     = 2.0
-  dust_gamma     = 1.8
+  dust_alpha     = 2.2
+  dust_gamma     = 1.0
   dust_calcdrag  = 1
   emiss_inpt_opt = 1
   emiss_opt = 5
@@ -222,7 +222,9 @@
   plumerisefire_frq = 60
   plumerise_flag = 2
   seas_opt       = 2
-  aer_ra_frq     = 60
+  seas_emis_scheme=-1
+  seas_emis_scale=1.,1.,1.,1.,1.
+  vertmix_onoff=1
   wetdep_ls_opt  = 1
   restart_inname = '/C96/In'
   restart_outname = '/C96/Restart'
