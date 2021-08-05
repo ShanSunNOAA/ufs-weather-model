@@ -106,7 +106,7 @@
 
 &external_ic_nml
   filtered_terrain = .true.
-  levp = 128
+  levp = @[NPZP]
   gfs_dwinds = .true.
   checker_tr = .false.
   nt_checker = 0
