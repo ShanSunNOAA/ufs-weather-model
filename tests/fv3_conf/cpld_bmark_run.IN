@@ -8,6 +8,7 @@ fi
 
 ICERES="${OCNRES:0:1}.${OCNRES:1}"
 
+CHEM_IC=FV3_input_frac/BM_IC/${SYEAR}${SMONTH}${SDAY}${SHOUR}/chem
 if [[ ${FRAC_GRID_INPUT} = .F. ]]; then
   FV3_IC=@[INPUTDATA_ROOT_BMIC]/${SYEAR}${SMONTH}${SDAY}${SHOUR}/gfs/@[ATMRES]/INPUT
 elif [[ @[NPZ] == '127' ]]; then
@@ -36,11 +37,10 @@ cp    @[INPUTDATA_ROOT]/${FV3_DIR}/INPUT/@[ATMRES]_grid*.nc ./INPUT
 # NOTE: No L127 FV3_DIR input for non-frac grid input except for C96
 if [ ${FRAC_GRID_INPUT} = .F. ]; then
   cp  @[INPUTDATA_ROOT]/${FV3_DIR}/INPUT/oro_data*.nc ./INPUT
-  cp  @[INPUTDATA_ROOT]/${FV3_DIR}/INPUT/gfs_ctrl.nc ./INPUT
 else
   cp  @[INPUTDATA_ROOT]/FV3_input_frac/@[ATMRES]_L@[NPZ].mx@[OCNRES]_frac/oro_data*.nc ./INPUT
-  cp  @[INPUTDATA_ROOT]/FV3_input_frac/@[ATMRES]_L@[NPZ].mx@[OCNRES]_frac/gfs_ctrl.nc ./INPUT
 fi
+
 cp    @[INPUTDATA_ROOT]/${FV3_DIR}/INPUT/grid_spec.nc ./INPUT/@[ATMRES]_mosaic.nc
 
 # MOM6 fixed input
@@ -59,11 +59,19 @@ if [[ $CPLWAV == .T. && $CPLWAV2ATM == .T. ]]; then
   fi
 fi
 
+if [ $CPLCHM = .T. ]; then
+# DH* TEMPORARY
+  cp @[INPUTDATA_ROOT]/FV3_input_data_ugwpv1/seaice_newland.grb .
+  cp @[INPUTDATA_ROOT]/${CHEM_IC}/*tile*.nc INPUT/.
+  cp @[INPUTDATA_ROOT]/${CHEM_IC}/*table* .
+# *DH
+fi
+
 # No restart
 if [ $WARM_START = .F. ]; then
   # ICs
   cp    @[INPUTDATA_ROOT]/${FV3_IC}/sfc_data*.nc ./INPUT
-  cp    @[INPUTDATA_ROOT]/${FV3_IC}/gfs_data*.nc ./INPUT
+  cp    @[INPUTDATA_ROOT]/${FV3_IC}/gfs*.nc ./INPUT
   cp    @[INPUTDATA_ROOT_BMIC]/${SYEAR}${SMONTH}${SDAY}${SHOUR}/mom6_da/MOM*.nc ./INPUT
   # the BM ICs are still named cice5 and need to remain so until P5.0 is completed
   cp    @[INPUTDATA_ROOT_BMIC]/${SYEAR}${SMONTH}${SDAY}${SHOUR}/cpc/cice5_model_@[ICERES].*.nc ./cice_model.res.nc
