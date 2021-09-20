@@ -20,7 +20,7 @@
   branch = update_gsl_develop_chem_from_master
 [submodule "gocart"]
   path = gocart-interface/gocart
-  url = https://github.com/NOAA-GSL/GOCART
+  url = https://github.com/shansun6/GOCART
   branch = gsl/develop-chem
 [submodule "CMakeModules"]
   path = CMakeModules
@@ -36,8 +36,8 @@
   branch = dev/emc
 [submodule "CICE"]
   path = CICE-interface/CICE
-  url = https://github.com/NOAA-EMC/CICE
-  branch = emc/develop
+  url = https://github.com/shansun6/CICE
+  branch = chem_wgne_v20210728
 [submodule "DATM"]
   path = DATM
   url = https://github.com/NOAA-EMC/NEMSdatm
